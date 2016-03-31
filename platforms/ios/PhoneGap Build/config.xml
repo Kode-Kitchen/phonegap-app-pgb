@@ -91,6 +91,9 @@
     <feature name="Vibration">
         <param name="ios-package" value="CDVVibration" />
     </feature>
+    <feature name="PhonegapBuildOauth">
+        <param name="ios-package" value="CDVPhonegapBuildOauth" />
+    </feature>
     <icon height="57" platform="ios" src="res/icon/ios/icon.png" width="57" />
     <icon height="114" platform="ios" src="res/icon/ios/icon@2x.png" width="114" />
     <icon height="40" platform="ios" src="res/icon/ios/icon-40.png" width="40" />

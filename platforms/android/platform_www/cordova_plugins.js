@@ -457,6 +457,13 @@ module.exports = [
         "file": "plugins/cordova-plugin-whitelist/whitelist.js",
         "id": "cordova-plugin-whitelist.whitelist",
         "runs": true
+    },
+    {
+        "file": "plugins/com.phonegap.build.oauth/www/phonegap-build-oauth.js",
+        "id": "com.phonegap.build.oauth.PhonegapBuildOauth",
+        "clobbers": [
+            "window.PhonegapBuildOauth"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -481,7 +488,8 @@ module.exports.metadata =
     "cordova-plugin-splashscreen": "3.2.1",
     "cordova-plugin-statusbar": "2.1.2",
     "cordova-plugin-vibration": "2.1.0",
-    "cordova-plugin-whitelist": "1.2.1"
+    "cordova-plugin-whitelist": "1.2.1",
+    "com.phonegap.build.oauth": "0.1.0"
 };
 // BOTTOM OF METADATA
 });

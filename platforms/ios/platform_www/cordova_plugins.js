@@ -559,6 +559,14 @@ module.exports = [
             "navigator.notification",
             "navigator"
         ]
+    },
+    {
+        "file": "plugins/com.phonegap.build.oauth/www/phonegap-build-oauth.js",
+        "id": "com.phonegap.build.oauth.PhonegapBuildOauth",
+        "pluginId": "com.phonegap.build.oauth",
+        "clobbers": [
+            "window.PhonegapBuildOauth"
+        ]
     }
 ];
 module.exports.metadata = 

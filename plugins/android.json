@@ -66,6 +66,9 @@
         },
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.phonegap.build.app"
+        },
+        "com.phonegap.build.oauth": {
+            "PACKAGE_NAME": "com.phonegap.build.app"
         }
     },
     "dependent_plugins": {}

@@ -52,6 +52,7 @@
 		1FA5DACB499B472D907E3592 /* CDVViewController+SplashScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CAA2232506F4DA89D22C080 /* CDVViewController+SplashScreen.m */; };
 		489747E66E924BFCBF27CB84 /* CDVStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 85C47E7120FB4720998E2FF8 /* CDVStatusBar.m */; };
 		6EA625068DD54772B193E895 /* CDVVibration.m in Sources */ = {isa = PBXBuildFile; fileRef = B87F6B8A231B471BBD0925D4 /* CDVVibration.m */; };
+		529B91F57A41406089749996 /* CDVPhonegapBuildOauth.m in Sources */ = {isa = PBXBuildFile; fileRef = 525DDBFE5AD04D1989F34E9F /* CDVPhonegapBuildOauth.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -155,6 +156,8 @@
 		93AB5F0ACA094D248E1FF8DD /* CDVStatusBar.h */ = {isa = PBXFileReference; name = "CDVStatusBar.h"; path = "cordova-plugin-statusbar/CDVStatusBar.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 		B87F6B8A231B471BBD0925D4 /* CDVVibration.m */ = {isa = PBXFileReference; name = "CDVVibration.m"; path = "cordova-plugin-vibration/CDVVibration.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
 		5D14CA2480B64A189AD04206 /* CDVVibration.h */ = {isa = PBXFileReference; name = "CDVVibration.h"; path = "cordova-plugin-vibration/CDVVibration.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		525DDBFE5AD04D1989F34E9F /* CDVPhonegapBuildOauth.m */ = {isa = PBXFileReference; name = "CDVPhonegapBuildOauth.m"; path = "com.phonegap.build.oauth/CDVPhonegapBuildOauth.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		993B72CE8C5E4E26A7679B8F /* CDVPhonegapBuildOauth.h */ = {isa = PBXFileReference; name = "CDVPhonegapBuildOauth.h"; path = "com.phonegap.build.oauth/CDVPhonegapBuildOauth.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -330,6 +333,8 @@
 				93AB5F0ACA094D248E1FF8DD /* CDVStatusBar.h */,
 				B87F6B8A231B471BBD0925D4 /* CDVVibration.m */,
 				5D14CA2480B64A189AD04206 /* CDVVibration.h */,
+				525DDBFE5AD04D1989F34E9F /* CDVPhonegapBuildOauth.m */,
+				993B72CE8C5E4E26A7679B8F /* CDVPhonegapBuildOauth.h */,
 			);
 			name = Plugins;
 			path = "PhoneGap Build/Plugins";
@@ -472,6 +477,7 @@
 				1FA5DACB499B472D907E3592 /* CDVViewController+SplashScreen.m in Sources */,
 				489747E66E924BFCBF27CB84 /* CDVStatusBar.m in Sources */,
 				6EA625068DD54772B193E895 /* CDVVibration.m in Sources */,
+				529B91F57A41406089749996 /* CDVPhonegapBuildOauth.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

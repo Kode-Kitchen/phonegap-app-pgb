@@ -95,6 +95,10 @@
                         {
                             "xml": "<feature name=\"Vibration\"><param name=\"ios-package\" value=\"CDVVibration\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"PhonegapBuildOauth\"><param name=\"ios-package\" value=\"CDVPhonegapBuildOauth\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -170,6 +174,9 @@
             "PACKAGE_NAME": "com.phonegap.build.app"
         },
         "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.phonegap.build.app"
+        },
+        "com.phonegap.build.oauth": {
             "PACKAGE_NAME": "com.phonegap.build.app"
         }
     },
@@ -733,6 +740,14 @@
             "merges": [
                 "navigator.notification",
                 "navigator"
+            ]
+        },
+        {
+            "file": "plugins/com.phonegap.build.oauth/www/phonegap-build-oauth.js",
+            "id": "com.phonegap.build.oauth.PhonegapBuildOauth",
+            "pluginId": "com.phonegap.build.oauth",
+            "clobbers": [
+                "window.PhonegapBuildOauth"
             ]
         }
     ]

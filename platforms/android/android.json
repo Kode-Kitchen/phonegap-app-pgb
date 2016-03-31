@@ -83,6 +83,10 @@
                         {
                             "xml": "<feature name=\"Whitelist\"><param name=\"android-package\" value=\"org.apache.cordova.whitelist.WhitelistPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"PhonegapBuildOauth\"><param name=\"android-package\" value=\"com.phonegap.build.oauth.PhonegapBuildOauth\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -204,6 +208,9 @@
             "PACKAGE_NAME": "com.phonegap.build.app"
         },
         "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.phonegap.build.app"
+        },
+        "com.phonegap.build.oauth": {
             "PACKAGE_NAME": "com.phonegap.build.app"
         }
     },
@@ -666,6 +673,13 @@
             "file": "plugins/cordova-plugin-whitelist/whitelist.js",
             "id": "cordova-plugin-whitelist.whitelist",
             "runs": true
+        },
+        {
+            "file": "plugins/com.phonegap.build.oauth/www/phonegap-build-oauth.js",
+            "id": "com.phonegap.build.oauth.PhonegapBuildOauth",
+            "clobbers": [
+                "window.PhonegapBuildOauth"
+            ]
         }
     ],
     "plugin_metadata": {
@@ -688,6 +702,7 @@
         "cordova-plugin-splashscreen": "3.2.1",
         "cordova-plugin-statusbar": "2.1.2",
         "cordova-plugin-vibration": "2.1.0",
-        "cordova-plugin-whitelist": "1.2.1"
+        "cordova-plugin-whitelist": "1.2.1",
+        "com.phonegap.build.oauth": "0.1.0"
     }
 }

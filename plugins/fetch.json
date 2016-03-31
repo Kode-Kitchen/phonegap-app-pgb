@@ -158,5 +158,13 @@
         },
         "is_top_level": true,
         "variables": {}
+    },
+    "com.phonegap.build.oauth": {
+        "source": {
+            "type": "local",
+            "path": "../phonegap-plugin-pgbuild-oauth"
+        },
+        "is_top_level": true,
+        "variables": {}
     }
 }
