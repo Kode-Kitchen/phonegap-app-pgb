@@ -464,6 +464,13 @@ module.exports = [
         "clobbers": [
             "window.PhonegapBuildOauth"
         ]
+    },
+    {
+        "file": "plugins/com.phonegap.plugins.apploader/www/apploader.js",
+        "id": "com.phonegap.plugins.apploader.apploader",
+        "clobbers": [
+            "navigator.apploader"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -489,7 +496,8 @@ module.exports.metadata =
     "cordova-plugin-statusbar": "2.1.2",
     "cordova-plugin-vibration": "2.1.0",
     "cordova-plugin-whitelist": "1.2.1",
-    "com.phonegap.build.oauth": "0.1.0"
+    "com.phonegap.build.oauth": "0.1.0",
+    "com.phonegap.plugins.apploader": "1.0.0"
 };
 // BOTTOM OF METADATA
 });

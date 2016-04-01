@@ -567,6 +567,14 @@ module.exports = [
         "clobbers": [
             "window.PhonegapBuildOauth"
         ]
+    },
+    {
+        "file": "plugins/com.phonegap.plugins.apploader/www/apploader.js",
+        "id": "com.phonegap.plugins.apploader.apploader",
+        "pluginId": "com.phonegap.plugins.apploader",
+        "clobbers": [
+            "navigator.apploader"
+        ]
     }
 ];
 module.exports.metadata = 

@@ -87,6 +87,10 @@
                         {
                             "xml": "<feature name=\"PhonegapBuildOauth\"><param name=\"android-package\" value=\"com.phonegap.build.oauth.PhonegapBuildOauth\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"AppLoader\"><param name=\"android-package\" value=\"com.phonegap.build.AppLoader\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -211,6 +215,9 @@
             "PACKAGE_NAME": "com.phonegap.build.app"
         },
         "com.phonegap.build.oauth": {
+            "PACKAGE_NAME": "com.phonegap.build.app"
+        },
+        "com.phonegap.plugins.apploader": {
             "PACKAGE_NAME": "com.phonegap.build.app"
         }
     },
@@ -680,6 +687,13 @@
             "clobbers": [
                 "window.PhonegapBuildOauth"
             ]
+        },
+        {
+            "file": "plugins/com.phonegap.plugins.apploader/www/apploader.js",
+            "id": "com.phonegap.plugins.apploader.apploader",
+            "clobbers": [
+                "navigator.apploader"
+            ]
         }
     ],
     "plugin_metadata": {
@@ -703,6 +717,7 @@
         "cordova-plugin-statusbar": "2.1.2",
         "cordova-plugin-vibration": "2.1.0",
         "cordova-plugin-whitelist": "1.2.1",
-        "com.phonegap.build.oauth": "0.1.0"
+        "com.phonegap.build.oauth": "0.1.0",
+        "com.phonegap.plugins.apploader": "1.0.0"
     }
 }

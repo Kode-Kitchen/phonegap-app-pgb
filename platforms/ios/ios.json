@@ -99,6 +99,10 @@
                         {
                             "xml": "<feature name=\"PhonegapBuildOauth\"><param name=\"ios-package\" value=\"CDVPhonegapBuildOauth\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"AppLoader\"><param name=\"ios-package\" value=\"AppLoader\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -177,6 +181,9 @@
             "PACKAGE_NAME": "com.phonegap.build.app"
         },
         "com.phonegap.build.oauth": {
+            "PACKAGE_NAME": "com.phonegap.build.app"
+        },
+        "com.phonegap.plugins.apploader": {
             "PACKAGE_NAME": "com.phonegap.build.app"
         }
     },
@@ -748,6 +755,14 @@
             "pluginId": "com.phonegap.build.oauth",
             "clobbers": [
                 "window.PhonegapBuildOauth"
+            ]
+        },
+        {
+            "file": "plugins/com.phonegap.plugins.apploader/www/apploader.js",
+            "id": "com.phonegap.plugins.apploader.apploader",
+            "pluginId": "com.phonegap.plugins.apploader",
+            "clobbers": [
+                "navigator.apploader"
             ]
         }
     ]
