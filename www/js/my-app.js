@@ -31,7 +31,8 @@ var API_HOST = "https://build.phonegap.com";
 // Add view
 var mainView = myApp.addView('.view-main', {
     // Because we want to use dynamic navbar, we need to enable it for this view:
-    dynamicNavbar: true
+    dynamicNavbar: true,
+    domCache: true
 });
 
 // Handle Cordova Device Ready Event
@@ -42,16 +43,42 @@ $$(document).on('deviceready', function() {
 $$(document).on('submit', '#login', login);
 
 myApp.onPageInit('details', function(page) {
-    $$(document).on('click', '#run', runApp);
-    $$(document).on('click', '#install', installApp);
+    $$('#run').on('click', runApp.bind(page.context));
+    $$('#install').on('click', installApp.bind(page.context));
 });
 
 function runApp() {
+  console.log(this);
+  var app_id = this.id;
+  var access_token = window.localStorage.getItem('access_token');
+  console.log('running app ' + app_id);
 
+  $$.ajax({
+    dataType: "json",
+    url:"https://build.phonegap.com/api/v1/apps/" + app_id + "/www?access_token=" + access_token,
+    success: function(data) {
+      navigator.apploader.fetch(decodeURI(data.www_url), function(d) {
+        if (d.state == 'complete') {
+          console.log('fetch complete');
+          navigator.apploader.load(function() {
+            console.log('Failed to load app.');
+          });
+        } else {
+          console.log(Math.round(d.status) + '%');
+        }
+      }, function() {
+        console.log('Failed to fetch app.');
+      });
+    },
+    failure: function(e) {
+      console.log('failed', e);
+    }
+  });
 }
 
 function installApp() {
-    
+  console.log(this);
+  window.open(this.install_url, "_system");
 }
 
 function login(e) {
@@ -119,7 +146,7 @@ function renderApps(appArray, token) {
 }
 
 function getQueryString(url) {
-        var a = url.slice((url.indexOf('?') + 1)).split('&')
+    var a = url.slice((url.indexOf('?') + 1)).split('&')
     if (a == "") return {};
     var b = {};
     for (var i = 0; i < a.length; ++i)
