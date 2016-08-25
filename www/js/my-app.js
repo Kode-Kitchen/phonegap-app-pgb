@@ -48,7 +48,6 @@ myApp.onPageInit('details', function(page) {
 });
 
 function runApp() {
-  console.log(this);
   var app_id = this.id;
   var access_token = window.localStorage.getItem('access_token');
   console.log('running app ' + app_id);
@@ -62,22 +61,24 @@ function runApp() {
           console.log('fetch complete');
           navigator.apploader.load(function() {
             console.log('Failed to load app.');
+            myApp.alert('Failed to load app.', 'Error');
           });
         } else {
           console.log(Math.round(d.status) + '%');
         }
       }, function() {
         console.log('Failed to fetch app.');
+        myApp.alert('Failed to fetch app.', 'Error');
       });
     },
     failure: function(e) {
-      console.log('failed', e);
+      console.log('Failed to fetch app.', e);
+        myApp.alert('Failed to fetch app.', 'Error');
     }
   });
 }
 
 function installApp() {
-  console.log(this);
   window.open(this.install_url, "_system");
 }
 
@@ -89,7 +90,7 @@ function login(e) {
     authWindow.addEventListener('loadstart', function(e) {
         var url = e.url;
         if (url.match(/^(https?:\/\/)phonegap\.com\/?\?(code|error)=[a-zA-Z0-9]*$/)) {
-            console.log('url match')
+            console.log('Callback url found.')
             var qs = getQueryString(url);
             if (qs['code']) {
                 authWindow.close();
@@ -99,15 +100,13 @@ function login(e) {
                     getApps(a.access_token);
                 }, function(a) {
                     console.log("Auth failure: " + a.message);
-                    alert('login failed');
+                    myApp.alert('Login failed', 'Error');
                 });
             } else if (qs['error']) {
                 authWindow.close();
                 console.log("Auth failure: " + a.message);
-                alert('authorization failed');
+                myApp.alert('Login failed', 'Error');
             }
-        } else {
-            console.log('url no match');
         }
     });
 
@@ -129,8 +128,6 @@ function saveApps(appArray) {
 }
 
 function renderApps(appArray, token) {
-    
-    console.log(appArray);
 
     appArray.forEach(function(app, index, arr) {
         arr[index].icon_url = API_HOST + "/api/v1/apps/" + app.id + "/icon?access_token=" + token;
