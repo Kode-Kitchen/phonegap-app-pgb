@@ -45,6 +45,7 @@ $$(document).on('submit', '#login', login);
 myApp.onPageInit('details', function(page) {
     $$('#run').on('click', runApp.bind(page.context));
     $$('#install').on('click', installApp.bind(page.context));
+    $$('#compat').on('click', analyzePlugins.bind(page.context));
 });
 
 function runApp() {
@@ -139,6 +140,46 @@ function renderApps(appArray, token) {
           apps: appArray
         },
       });
+
+}
+
+function analyzePlugins() {
+
+  var access_token = window.localStorage.getItem('access_token');
+
+  $$.ajax({
+    dataType: "json",
+    url:"https://build.phonegap.com/api/v1/apps/" + this.id + "/plugins?access_token=" + access_token,
+    success: function(data) {
+
+      if (typeof data.plugins != 'undefined') {
+
+        var available_plugins = {}; 
+        cordova.require('cordova/plugin_list').forEach(function(plugin) {
+          available_plugins[plugin.pluginId] = plugin;
+        });
+
+        var plugin_missing = false;
+        var desired_plugins = data.plugins;
+          
+        desired_plugins.forEach(function(plugin) {
+          plugin.available = (typeof available_plugins[plugin.name] != 'undefined');
+          return plugin;
+        });
+
+        console.log(desired_plugins);
+
+        mainView.router.load({
+          template: myApp.templates.compatibility,
+          context: {
+            plugins: desired_plugins
+          }
+        });
+
+      }
+
+    }
+  });
 
 }
 
