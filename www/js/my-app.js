@@ -147,6 +147,8 @@ function analyzePlugins() {
 
   var access_token = window.localStorage.getItem('access_token');
 
+  var context = this;
+
   $$.ajax({
     dataType: "json",
     url:"https://build.phonegap.com/api/v1/apps/" + this.id + "/plugins?access_token=" + access_token,
@@ -154,25 +156,33 @@ function analyzePlugins() {
 
       if (typeof data.plugins != 'undefined') {
 
-        var available_plugins = {}; 
+        var available_plugins = {};
         cordova.require('cordova/plugin_list').forEach(function(plugin) {
           available_plugins[plugin.pluginId] = plugin;
         });
 
         var plugin_missing = false;
-        var desired_plugins = data.plugins;
+        var desired_plugins = [];
           
-        desired_plugins.forEach(function(plugin) {
+        data.plugins.forEach(function(plugin) {
+          // won't find whitelist plugin, in cordova/plugin_list
+          if (plugin.name == 'cordova-plugin-whitelist') return;
           plugin.available = (typeof available_plugins[plugin.name] != 'undefined');
-          return plugin;
+          desired_plugins.push(plugin);
         });
 
-        console.log(desired_plugins);
+        //var desired_cordova_version = context[device.platform.toLowerCase().replace("windows", "winphone") + "_phonegap_version"];
+        var desired_cordova_version = "3.0.0";
 
         mainView.router.load({
           template: myApp.templates.compatibility,
           context: {
-            plugins: desired_plugins
+            plugins: desired_plugins,
+            cordova_version: {
+              local: cordova.version,
+              desired: desired_cordova_version,
+              mismatch: mismatch(cordova.version, desired_cordova_version)
+            }
           }
         });
 
@@ -198,4 +208,19 @@ function getQueryString(url) {
     return b;
 }
 
+function mismatch(v1, v2) {
+  var v1parts = v1.split('.'),
+      v2parts = v2.split('.');
 
+  while (v1parts.length < v2parts.length) v1parts.push("0");
+  while (v2parts.length < v1parts.length) v2parts.push("0");
+
+  if (v1parts[0] != v2parts[0]) {
+    return 'major';
+  } else if (v1parts[1] != v2parts[1]) {
+    return 'minor';
+  } else {
+    return 'none';
+  }
+
+}

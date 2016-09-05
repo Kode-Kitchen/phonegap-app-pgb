@@ -195,16 +195,34 @@
 
                 <div class="list-block accordion-list">
                 <ul>
-                <li class="accordion-item">
+                <style>
+                .major-mismatch .item-inner {
+                    color:red;
+                }
+                .minor-mismatch .item-inner {
+                    color:orange;
+                }
+                .pg-info {
+                    display:none;
+                }
+                .major-mismatch #major-mismatch,
+                .minor-mismatch #minor-mismatch,
+                .none-mismatch #none-mismatch {
+                    display:block;
+                }
+
+                </style>
+                <li class="accordion-item {{this.cordova_version.mismatch}}-mismatch">
                     <a href="" class="item-link item-content">
                         <div class="item-inner">
                             <div class="item-title">PhoneGap Version</div>
-                            <div class="item-after">GOOD</div>
                         </div>
                     </a> 
                     <div class="accordion-item-content">
                         <div class="content-block">
-                            <p>Here's some info about the PG version.</p>
+                            <p id="major-mismatch" class="pg-info">This version of the PhoneGap Developer app uses PhoneGap {{this.cordova_version.local}}, and your app was built with PhoneGap {{this.cordova_version.desired}}. A major version mismatch like this may cause unexpected behaviour, and you may want to install the app separately.</p>
+                            <p id="minor-mismatch" class="pg-info">This version of the PhoneGap Developer app uses PhoneGap {{this.cordova_version.local}}, and your app was built with PhoneGap {{this.cordova_version.desired}}. A minor version mismatch like this should be acceptable.</p>
+                            <p id="none-mismatch" class="pg-info">This version of the PhoneGap Developer app uses the same version of PhoneGap as your app ({{this.cordova_version.local}}).</p>
                         </div>
                     </div>
                 </li>
