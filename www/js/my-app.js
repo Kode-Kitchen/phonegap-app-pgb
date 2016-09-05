@@ -48,6 +48,11 @@ myApp.onPageInit('details', function(page) {
     $$('#compat').on('click', analyzePlugins.bind(page.context));
 });
 
+myApp.onPageBack('results', function(page) {
+  console.log('clearing localstorage');
+  window.localStorage.clear();
+})
+
 function login(e) {
     e.preventDefault();
 
@@ -79,12 +84,18 @@ function login(e) {
 }
 
 function getApps(access_token) {
+    myApp.showPreloader();
     $$.ajax({
       dataType: "json",
       url: API_HOST + "/api/v1/apps?access_token=" + access_token,
       success: function(data) {
+        myApp.hidePreloader();
         saveApps(data.apps);
         renderApps(data.apps, access_token);
+      }, 
+      failure: function() {
+        myApp.hidePreloader();
+        myApp.alert('Failed to fetch apps.')
       }
     });
 }
@@ -112,6 +123,10 @@ function runApp() {
   var app_id = this.id;
   var access_token = window.localStorage.getItem('access_token');
   console.log('running app ' + app_id);
+  
+  var container = $$('#progressbar');
+  if (container.children('.progressbar').length) return; //don't run all this if there is a current progressbar loading
+  myApp.showProgressbar(container, 0);
 
   $$.ajax({
     dataType: "json",
@@ -120,12 +135,14 @@ function runApp() {
       navigator.apploader.fetch(decodeURI(data.www_url), function(d) {
         if (d.state == 'complete') {
           console.log('fetch complete');
+          myApp.hideProgressbar(container);
           navigator.apploader.load(function() {
             console.log('Failed to load app.');
             myApp.alert('Failed to load app.', 'Error');
           });
         } else {
           console.log(Math.round(d.status) + '%');
+          myApp.setProgressbar(container, d.status);
         }
       }, function() {
         console.log('Failed to fetch app.');
@@ -134,7 +151,7 @@ function runApp() {
     },
     failure: function(e) {
       console.log('Failed to fetch app.', e);
-        myApp.alert('Failed to fetch app.', 'Error');
+      myApp.alert('Failed to fetch app.', 'Error');
     }
   });
 }
@@ -146,13 +163,15 @@ function installApp() {
 function analyzePlugins() {
 
   var access_token = window.localStorage.getItem('access_token');
-
   var context = this;
 
+  myApp.showPreloader();
   $$.ajax({
     dataType: "json",
     url:"https://build.phonegap.com/api/v1/apps/" + this.id + "/plugins?access_token=" + access_token,
     success: function(data) {
+
+      myApp.hidePreloader();
 
       if (typeof data.plugins != 'undefined') {
 
@@ -188,6 +207,9 @@ function analyzePlugins() {
 
       }
 
+    },
+    failure: function() {
+      myApp.hidePreloader();
     }
   });
 
