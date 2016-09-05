@@ -48,41 +48,6 @@ myApp.onPageInit('details', function(page) {
     $$('#compat').on('click', analyzePlugins.bind(page.context));
 });
 
-function runApp() {
-  var app_id = this.id;
-  var access_token = window.localStorage.getItem('access_token');
-  console.log('running app ' + app_id);
-
-  $$.ajax({
-    dataType: "json",
-    url:"https://build.phonegap.com/api/v1/apps/" + app_id + "/www?access_token=" + access_token,
-    success: function(data) {
-      navigator.apploader.fetch(decodeURI(data.www_url), function(d) {
-        if (d.state == 'complete') {
-          console.log('fetch complete');
-          navigator.apploader.load(function() {
-            console.log('Failed to load app.');
-            myApp.alert('Failed to load app.', 'Error');
-          });
-        } else {
-          console.log(Math.round(d.status) + '%');
-        }
-      }, function() {
-        console.log('Failed to fetch app.');
-        myApp.alert('Failed to fetch app.', 'Error');
-      });
-    },
-    failure: function(e) {
-      console.log('Failed to fetch app.', e);
-        myApp.alert('Failed to fetch app.', 'Error');
-    }
-  });
-}
-
-function installApp() {
-  window.open(this.install_url, "_system");
-}
-
 function login(e) {
     e.preventDefault();
 
@@ -141,6 +106,41 @@ function renderApps(appArray, token) {
         },
       });
 
+}
+
+function runApp() {
+  var app_id = this.id;
+  var access_token = window.localStorage.getItem('access_token');
+  console.log('running app ' + app_id);
+
+  $$.ajax({
+    dataType: "json",
+    url:"https://build.phonegap.com/api/v1/apps/" + app_id + "/www?access_token=" + access_token,
+    success: function(data) {
+      navigator.apploader.fetch(decodeURI(data.www_url), function(d) {
+        if (d.state == 'complete') {
+          console.log('fetch complete');
+          navigator.apploader.load(function() {
+            console.log('Failed to load app.');
+            myApp.alert('Failed to load app.', 'Error');
+          });
+        } else {
+          console.log(Math.round(d.status) + '%');
+        }
+      }, function() {
+        console.log('Failed to fetch app.');
+        myApp.alert('Failed to fetch app.', 'Error');
+      });
+    },
+    failure: function(e) {
+      console.log('Failed to fetch app.', e);
+        myApp.alert('Failed to fetch app.', 'Error');
+    }
+  });
+}
+
+function installApp() {
+  window.open(this.install_url, "_system");
 }
 
 function analyzePlugins() {
