@@ -38,9 +38,8 @@ var mainView = myApp.addView('.view-main', {
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
     console.log("Device is ready!");
+    $$(document).on('submit', '#login', login);
 });
-
-$$(document).on('submit', '#login', login);
 
 myApp.onPageInit('details', function(page) {
     $$('#run').on('click', runApp.bind(page.context));
@@ -48,6 +47,7 @@ myApp.onPageInit('details', function(page) {
     $$('#compat').on('click', analyzePlugins.bind(page.context));
 });
 
+// clear localstorage when Logout clicked
 myApp.onPageBack('results', function(page) {
   console.log('clearing localstorage');
   window.localStorage.clear();
@@ -108,6 +108,7 @@ function renderApps(appArray, token) {
 
     appArray.forEach(function(app, index, arr) {
         arr[index].icon_url = API_HOST + "/api/v1/apps/" + app.id + "/icon?access_token=" + token;
+        arr[index].platform_phonegap_version = app.phonegap_versions[device.platform.toLowerCase().replace("windows", "winphone")];
     })
     
     mainView.router.load({
@@ -130,29 +131,32 @@ function runApp() {
 
   $$.ajax({
     dataType: "json",
-    url:"https://build.phonegap.com/api/v1/apps/" + app_id + "/www?access_token=" + access_token,
-    success: function(data) {
-      navigator.apploader.fetch(decodeURI(data.www_url), function(d) {
-        if (d.state == 'complete') {
-          console.log('fetch complete');
-          myApp.hideProgressbar(container);
-          navigator.apploader.load(function() {
-            console.log('Failed to load app.');
-            myApp.alert('Failed to load app.', 'Error');
-          });
-        } else {
-          console.log(Math.round(d.status) + '%');
-          myApp.setProgressbar(container, d.status);
-        }
-      }, function() {
-        console.log('Failed to fetch app.');
-        myApp.alert('Failed to fetch app.', 'Error');
-      });
-    },
+    url: API_HOST + "/api/v1/apps/" + app_id + "/www?access_token=" + access_token,
+    success: loadApp,
     failure: function(e) {
       console.log('Failed to fetch app.', e);
       myApp.alert('Failed to fetch app.', 'Error');
     }
+  });
+}
+
+function loadApp(data) { 
+  var container = $$('#progressbar');
+  navigator.apploader.fetch(decodeURI(data.www_url), function(d) {
+    if (d.state == 'complete') {
+      console.log('fetch complete');
+      myApp.hideProgressbar(container);
+      navigator.apploader.load(function() {
+        console.log('Failed to load app.');
+        myApp.alert('Failed to load app.', 'Error');
+      });
+    } else {
+      console.log(Math.round(d.status) + '%');
+      myApp.setProgressbar(container, d.status);
+    }
+  }, function() {
+    console.log('Failed to fetch app.');
+    myApp.alert('Failed to fetch app.', 'Error');
   });
 }
 
@@ -168,7 +172,7 @@ function analyzePlugins() {
   myApp.showPreloader();
   $$.ajax({
     dataType: "json",
-    url:"https://build.phonegap.com/api/v1/apps/" + this.id + "/plugins?access_token=" + access_token,
+    url: API_HOST + "/api/v1/apps/" + this.id + "/plugins?access_token=" + access_token,
     success: function(data) {
 
       myApp.hidePreloader();
@@ -190,8 +194,7 @@ function analyzePlugins() {
           desired_plugins.push(plugin);
         });
 
-        //var desired_cordova_version = context[device.platform.toLowerCase().replace("windows", "winphone") + "_phonegap_version"];
-        var desired_cordova_version = "3.0.0";
+        var desired_cordova_version = context.phonegap_versions[device.platform.toLowerCase().replace("windows", "winphone")];
 
         mainView.router.load({
           template: myApp.templates.compatibility,
