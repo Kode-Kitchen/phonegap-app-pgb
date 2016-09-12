@@ -39,6 +39,12 @@ var mainView = myApp.addView('.view-main', {
 $$(document).on('deviceready', function() {
     console.log("Device is ready!");
     $$(document).on('submit', '#login', login);
+
+    access_token = window.localStorage.getItem('access_token');
+    
+    if (access_token) {
+        getApps(access_token);
+    }
 });
 
 myApp.onPageInit('details', function(page) {
@@ -90,7 +96,6 @@ function getApps(access_token) {
       url: API_HOST + "/api/v1/apps?access_token=" + access_token,
       success: function(data) {
         myApp.hidePreloader();
-        saveApps(data.apps);
         renderApps(data.apps, access_token);
       }, 
       failure: function() {
@@ -98,10 +103,6 @@ function getApps(access_token) {
         myApp.alert('Failed to fetch apps.')
       }
     });
-}
-
-function saveApps(appArray) {
-    window.localStorage.setItem('appArray', JSON.stringify(appArray));
 }
 
 function renderApps(appArray, token) {
