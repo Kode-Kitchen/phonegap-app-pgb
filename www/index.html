@@ -147,20 +147,14 @@
                   <img src="{{this.icon.link}}" />
                 </div>
                 <div class="detail-header-text">
-                    <h3>{{this.title}}</h3>
+                    <h3 style="margin-bottom:0px;">{{this.title}}</h3>
+                    <div>{{this.version}}</div>
                     <p>{{this.description}}</p>
                 </div>
             </div>
 
             <div class="list-block">
                 <ul>
-                    <li class="item-content">
-                        <div class="item-inner">
-                            <div class="item-title">Version</div>
-                            <div class="item-after">{{this.version}}</div>
-                        </div>
-                    </li>
-
                     <style>
                     .pg-info {
                         display:none;
@@ -192,19 +186,13 @@
                 </ul>
             </div>
             <div class="content-block buttons">
+                <input type="button" class="button button-big button-fill" value="Check Plugin Compatibility" id="plugin-compat" /> 
+                <p>Attempts to determine if the PhoneGap Build Developer app includes the required plugins to run your app. If not, you should install the standalone version of your app.</p>
                 <p id="progressbar" style="height:2px"></p>
-                <input type="button" class="button button-big button-fill" value="Run" id="run" />
+                <input type="button" class="button button-big button-fill" value="Run" id="run" {{#unless this.build_complete}}disabled{{/unless}} />
                 <p>Runs the app within this Phonegap webview. Phonegap version or plugin incompatibilities could cause unexpected behaviour.</p>
-                <input type="button" class="button button-big button-fill" value="Install" id="install" {{#if this.build_complete}}disabled{{/if}} />
+                <input type="button" class="button button-big button-fill" value="Install" id="install" />
                 <p>Will download the app binary and install as a standalone application.</p>
-            </div>
-
-            <div class="list-block">
-                <ul><li><a href="#" id="compat" class="item-link item-content">
-                    <div class="item-inner">
-                        <div class="item-title">Check Plugin Compatibility</div>
-                    </div>
-                </a></li></ul>
             </div>
 
             </div>
@@ -216,30 +204,30 @@
     <script type="text/template7" id="compatibility">
         <div class="page" data-page="compatibility">
             <div class="page-content">
+
+                <p>The following plugins are needed but missing:</p>
                 <div class="list-block accordion-list">
                 <ul>
-                  {{#each plugins}}
-                    <li class="accordion-item"><a href="#" class="item-content item-link">
-                        <div class="item-inner">
-                          <div class="item-title">{{this.name}}</div>
-                          {{#unless this.available}}
-                          <div class="item-after"><div class="error"></div></div>
-                          {{/unless}}
-                        </div></a>
-                      <div class="accordion-item-content">
-                        <div class="content-block">
-                          <p>
-                              {{#if this.available}}
-                              This plugin is installed.
-                              {{else}}
-                              Your app requires this plugin, but it isn't included in the PGB Developer App.
-                              {{/if}}
-                          </p>
-                        </div>
-                      </div>
+                  {{#each missing_plugins}}
+                    <li class="item-content">
+                       <div class="item-inner">
+                           <div class="item-title">{{this.name}}</div>
+                       </div>
                     </li>
                   {{/each}}
-                </li>
+                </ul>
+                </div>
+
+                <p>The following required plugins are installed:</p>
+                <div class="list-block accordion-list">
+                <ul>
+                  {{#each present_plugins}}
+                    <li class="item-content">
+                       <div class="item-inner">
+                           <div class="item-title">{{this.name}}</div>
+                       </div>
+                    </li>
+                  {{/each}}
                 </ul>
                 </div>
 

@@ -50,7 +50,7 @@ $$(document).on('deviceready', function() {
 myApp.onPageInit('details', function(page) {
     $$('#run').on('click', runApp.bind(page.context));
     $$('#install').on('click', installApp.bind(page.context));
-    $$('#compat').on('click', analyzePlugins.bind(page.context));
+    $$('#plugin-compat').on('click', analyzePlugins.bind(page.context));
 });
 
 // clear localstorage when Logout clicked
@@ -119,7 +119,7 @@ function renderApps(appArray, token) {
           desired: desired_cordova_version,
           mismatch: mismatch(cordova.version, desired_cordova_version)
         }
-        arr[index].build_complete = app[platform + "_status"] == "complete";
+        arr[index].build_complete = app.status[platform] == "complete";
     })
     
     mainView.router.load({
@@ -195,20 +195,29 @@ function analyzePlugins() {
           available_plugins[plugin.pluginId] = plugin;
         });
 
-        var plugin_missing = false;
-        var desired_plugins = [];
+        var missing_plugins = [];
+        var present_plugins = [];
           
         data.plugins.forEach(function(plugin) {
           // won't find whitelist plugin, in cordova/plugin_list
-          if (plugin.name == 'cordova-plugin-whitelist') return;
-          plugin.available = (typeof available_plugins[plugin.name] != 'undefined');
-          desired_plugins.push(plugin);
+          if (plugin.name == 'cordova-plugin-whitelist') 
+            return;
+          else if (typeof available_plugins[plugin.name] == 'undefined')
+            missing_plugins.push(plugin)
+          else
+            present_plugins.push(plugin);
         });
+
+        if (missing_plugins.length == 0) {
+          myApp.alert('All required plugins are available.', 'Notice');
+          return;
+        }
 
         mainView.router.load({
           template: myApp.templates.compatibility,
           context: {
-            plugins: desired_plugins
+            missing_plugins: missing_plugins,
+            present_plugins: present_plugins
           }
         });
 
