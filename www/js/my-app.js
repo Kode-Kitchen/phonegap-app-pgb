@@ -40,10 +40,14 @@ $$(document).on('deviceready', function() {
     console.log("Device is ready!");
     $$(document).on('submit', '#login', login);
 
+    var stay_logged_in = window.localStorage.getItem("stay_logged_in") == "true";
     access_token = window.localStorage.getItem('access_token');
     
-    if (access_token) {
+    // if window.history.length > 1 then we came from a nested PGB app, so just login
+    if (access_token && (stay_logged_in || window.history.length > 1)) {
         getApps(access_token);
+    } else {
+      window.localStorage.clear();
     }
 });
 
@@ -57,10 +61,14 @@ myApp.onPageInit('details', function(page) {
 myApp.onPageBack('results', function(page) {
   console.log('clearing localstorage');
   window.localStorage.clear();
-})
+});
 
 function login(e) {
+
     e.preventDefault();
+
+    var stay_logged_in = $$(this).find("input[type=checkbox]")[0].checked;
+    window.localStorage.setItem("stay_logged_in", stay_logged_in);
 
     var authWindow = cordova.InAppBrowser.open(API_HOST + "/authorize?client_id=b3e5cfc36aa66587b24f", "_blank", "clearcache=yes");
 

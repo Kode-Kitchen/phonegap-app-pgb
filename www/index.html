@@ -67,6 +67,21 @@
                             <img class="bot" src="css/bot.png" />
                             <form id="login">
                                 <input type="submit" class="button button-big button-fill" value="Login" />
+                                <div class="list-block"><ul>
+                                <li>
+                                  <div class="item-content">
+                                    <div class="item-media">
+                                    <label class="label-switch">
+                                      <input type="checkbox" />
+                                      <div class="checkbox"></div>
+                                    </label>
+                                    </div>
+                                    <div class="item-inner" style="margin-left:20%;">
+                                      <div class="item-title">Keep me signed in</div>
+                                    </div>
+                                  </div>
+                                </li>
+                                </ul></div>
                             </form>
                         </div>
                     </div>
@@ -192,7 +207,7 @@
                 <input type="button" class="button button-big button-fill" value="Run" id="run" {{#unless this.build_complete}}disabled{{/unless}} />
                 <p>Runs the app within this Phonegap webview. Phonegap version or plugin incompatibilities could cause unexpected behaviour.</p>
                 <input type="button" class="button button-big button-fill" value="Install" id="install" />
-                <p>Will download the app binary and install as a standalone application.</p>
+                <p>Will download the app binary and install as a standalone application if available.</p>
             </div>
 
             </div>
