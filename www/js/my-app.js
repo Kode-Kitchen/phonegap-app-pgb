@@ -113,27 +113,32 @@ function getApps(access_token) {
     });
 }
 
-function renderApps(appArray, token) {
+function renderApps(apps, token) {
 
-    appArray.forEach(function(app, index, arr) {
+    var newApps = [];
+
+    apps.forEach(function(app, index, arr) {
 
         var platform = device.platform.toLowerCase().replace("windows", "winphone");
         var desired_cordova_version = app.phonegap_versions[platform];
 
-        arr[index].icon_url = API_HOST + "/api/v1/apps/" + app.id + "/icon?access_token=" + token;
-        arr[index].platform_phonegap_version = app.phonegap_versions[platform];
-        arr[index].cordova_version = {
+        app.icon_url = API_HOST + "/api/v1/apps/" + app.id + "/icon?access_token=" + token;
+        app.platform_phonegap_version = app.phonegap_versions[platform];
+        app.cordova_version = {
           local: cordova.version,
           desired: desired_cordova_version,
           mismatch: mismatch(cordova.version, desired_cordova_version)
         }
-        arr[index].build_complete = app.status[platform] == "complete";
+        app.platform = platform;
+        app.build_complete = app.status[platform] == "complete";
+        app.build_status = app.status[platform];
+        newApps.push(app);
     })
     
     mainView.router.load({
         template: myApp.templates.results,
         context: {
-          apps: appArray
+          apps: apps
         },
       });
 

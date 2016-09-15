@@ -75,3 +75,7 @@
 .minor-mismatch .error {
     color:orange;
 }
+
+.detail-page .list-block {
+    margin: 10px 0px;
+}
