@@ -91,6 +91,8 @@
     </div>
 
     <script type="text/template7" id="results">
+        <!-- Dynamic navbar for iOS theme -->
+        {{#if @global.ios}}
         <div class="navbar">
             <div class="navbar-inner">
                 <div class="left sliding">
@@ -102,8 +104,20 @@
                 <div class="center sliding">Apps</div>
             </div>
         </div>
+        {{/if}}
 
         <div class="page" data-page="results">
+            <!-- Fixed navbar for Material theme -->
+            {{#if @global.material}}
+            <div class="navbar">
+                <div class="navbar-inner">
+                  <div class="left">
+                    <a href="#" class="back link"><i class="icon icon-back"></i></a>
+                  </div>
+                  <div class="center">Apps</div>
+                </div>
+            </div>
+            {{/if}}
 
             <div class="page-content">
               <div class="list-block media-list">
@@ -142,7 +156,7 @@
             <div class="left sliding">
               <a href="#" class="back link">
                 <i class="icon icon-back"></i>
-                  <span>Apps</span>
+                <span>Apps</span>
               </a>
             </div>
             <div class="center sliding">App Details</div>
@@ -155,6 +169,26 @@
         </div>
 
         <div class="page" data-page="details">
+            <!-- Fixed navbar for Material theme -->
+            {{#if @global.material}}
+            <div class="navbar">
+                <div class="navbar-inner">
+                  <div class="left">
+                    <a href="#" class="back link">
+                      <i class="icon icon-back"></i>
+                      <span>Apps</span>
+                    </a>
+                  </div>
+                  <div class="center">Track details</div>
+                  <div class="right">
+                    <a href="#" class="link star">
+                      <i class="fa fa-star-o"></i>
+                    </a>
+                  </div>
+                </div>
+            </div>
+            {{/if}}
+
             <div class="page-content detail-page">
 
             <div class="detail-header">
