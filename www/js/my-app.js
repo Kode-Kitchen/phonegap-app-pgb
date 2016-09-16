@@ -1,3 +1,12 @@
+// Code for platform detection
+var isMaterial = Framework7.prototype.device.ios === false;
+var isIos = Framework7.prototype.device.ios === true;
+
+// Add the above as global variables for templates
+Template7.global = {
+  material: isMaterial,
+  ios: isIos,
+};
 
 // A stringify helper
 // Need to replace any double quotes in the data with the HTML char
