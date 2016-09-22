@@ -9,7 +9,7 @@ Log into PhoneGap Build, view and run your PGB apps within the same webview, or 
 
 Unfortunately, not at the moment (it will build, but you can't yet inject plugin params into code files with plugman -- [jira issue](https://issues.apache.org/jira/browse/CB-11859)).
 
-## Building Locally
+## Build & Run Locally
 
 Install phonegap if you haven't already
 
@@ -23,7 +23,7 @@ Clone the repo and add platforms
 
 Obtain API oauth client credentials (a `CLIENT_ID` and `CLIENT_SECRET`) from [PhoneGap Build](https://build.phonegap.com/people/edit). Add the credentials to the PGB Oauth Plugin for Android (platforms/android/src/com/phonegap/build/oauth/PhonegapBuildOauth.java line 25) and iOS (`platforms/ios/PhoneGap\ Build/Plugins/com.phonegap.build.oauth/CDVPhonegapBuildOauth.m` line 13).
 
-## Compile and Run
+Compile and Run
 
     phonegap run ios
     phonegap run android
