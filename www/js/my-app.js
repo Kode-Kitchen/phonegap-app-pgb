@@ -83,7 +83,7 @@ function login(e) {
 
     authWindow.addEventListener('loadstart', function(e) {
         var url = e.url;
-        if (url.match(/^(https?:\/\/)phonegap\.com\/?\?(code|error)=[a-zA-Z0-9]*$/)) {
+        if (url.match(/^(https?:\/\/)phonegap\.com\/?\?(code|error)=[a-zA-Z0-9_]*$/)) {
             console.log('Callback url found.')
             var qs = getQueryString(url);
             if (qs['code']) {
