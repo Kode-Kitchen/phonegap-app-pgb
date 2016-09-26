@@ -131,7 +131,9 @@ function renderApps(apps, token) {
         var platform = device.platform.toLowerCase().replace("windows", "winphone");
         var desired_cordova_version = app.phonegap_versions[platform];
 
-        app.icon_url = API_HOST + "/api/v1/apps/" + app.id + "/icon?access_token=" + token;
+        if (!app.icon.link) 
+          app.icon.link = "css/bot-144.png";
+
         app.platform_phonegap_version = app.phonegap_versions[platform];
         app.cordova_version = {
           local: cordova.version,
