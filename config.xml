@@ -15,7 +15,7 @@
     <!-- PhoneGap Build authentication plugin -->
     <plugin name="phonegap-plugin-pgb-oauth" spec="https://github.com/wildabeast/phonegap-plugin-pgb-oauth.git" />
 
-    <plugin name="phonegap-plugin-contentsync" spec="~1.2.4" />
+    <plugin name="phonegap-plugin-contentsync" spec="https://github.com/wildabeast/phonegap-plugin-contentsync.git#inject-home-script" />
 
     <!-- core cordova plugins -->
     <plugin name="cordova-plugin-battery-status" source="npm" spec="&gt;1.0.0" />

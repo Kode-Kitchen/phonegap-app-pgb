@@ -192,7 +192,8 @@ function loadApp(app_data) {
   var sync = ContentSync.sync({
       src: app_data.www_url,
       id: this.id + "",
-      copyCordovaAssets: true
+      copyCordovaAssets: true,
+      injectHomeScript: true
     });
 
   
@@ -206,6 +207,7 @@ function loadApp(app_data) {
 
   sync.on('error', function(e) {
     console.log('Sync failure');
+    console.log(e);
     myApp.alert('Sync failure', 'Error');
   });
 }
