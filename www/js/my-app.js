@@ -177,7 +177,7 @@ function runApp() {
   $$.ajax({
     dataType: "json",
     url: API_HOST + "/api/v1/apps/" + app_id + "/www?access_token=" + myApp.access_token,
-    success: loadApp,
+    success: loadApp.bind(this),
     failure: function(e) {
       console.log('Failed to fetch app.', e);
       myApp.alert('Failed to fetch app.', 'Error');
@@ -185,23 +185,28 @@ function runApp() {
   });
 }
 
-function loadApp(data) { 
+function loadApp(app_data) { 
+
   var container = $$('#progressbar');
-  navigator.apploader.fetch(decodeURI(data.www_url), function(d) {
-    if (d.state == 'complete') {
-      console.log('fetch complete');
-      myApp.hideProgressbar(container);
-      navigator.apploader.load(function() {
-        console.log('Failed to load app.');
-        myApp.alert('Failed to load app.', 'Error');
-      });
-    } else {
-      console.log(Math.round(d.status) + '%');
-      myApp.setProgressbar(container, d.status);
-    }
-  }, function() {
-    console.log('Failed to fetch app.');
-    myApp.alert('Failed to fetch app.', 'Error');
+
+  var sync = ContentSync.sync({
+      src: app_data.www_url,
+      id: this.id + "",
+      copyCordovaAssets: true
+    });
+
+  
+  sync.on('progress', function(data) {
+    myApp.setProgressbar(container, data.progress);
+  });
+  
+  sync.on('complete', function(data) {
+    window.location.href = 'file://' + data.localPath + "/index.html";
+  });
+
+  sync.on('error', function(e) {
+    console.log('Sync failure');
+    myApp.alert('Sync failure', 'Error');
   });
 }
 
