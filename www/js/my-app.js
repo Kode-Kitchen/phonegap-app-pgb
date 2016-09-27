@@ -50,11 +50,11 @@ $$(document).on('deviceready', function() {
     $$(document).on('submit', '#login', login);
 
     var stay_logged_in = window.localStorage.getItem("stay_logged_in") == "true";
-    access_token = window.localStorage.getItem('access_token');
+    myApp.access_token = window.localStorage.getItem('access_token');
     
     // if window.history.length > 1 then we came from a nested PGB app, so just login
-    if (access_token && (stay_logged_in || window.history.length > 1)) {
-        getApps(access_token);
+    if (myApp.access_token && (stay_logged_in || window.history.length > 1)) {
+        getApps(false);
     } else {
       window.localStorage.clear();
     }
@@ -71,6 +71,13 @@ myApp.onPageBack('results', function(page) {
   console.log('clearing localstorage');
   window.localStorage.clear();
 });
+
+myApp.onPageInit('results', function(page) {
+  $$('.pull-to-refresh-content').on('refresh', function (e) {
+    getApps(true);
+  });
+
+})
 
 function login(e) {
 
@@ -89,9 +96,9 @@ function login(e) {
             if (qs['code']) {
                 authWindow.close();
                 PhonegapBuildOauth.authorizeByCode(qs['code'], function(a) {
-                    access_token = a.access_token;
-                    window.localStorage.setItem('access_token', access_token);
-                    getApps(a.access_token);
+                    myApp.access_token = a.access_token;
+                    window.localStorage.setItem('access_token', myApp.access_token);
+                    getApps(false);
                 }, function(a) {
                     console.log("Auth failure: " + a.message);
                     myApp.alert('Login failed', 'Error');
@@ -106,23 +113,26 @@ function login(e) {
 
 }
 
-function getApps(access_token) {
+function getApps(isRefresh) {
+
     myApp.showPreloader();
     $$.ajax({
       dataType: "json",
-      url: API_HOST + "/api/v1/apps?access_token=" + access_token,
+      url: API_HOST + "/api/v1/apps?access_token=" + myApp.access_token,
       success: function(data) {
         myApp.hidePreloader();
-        renderApps(data.apps, access_token);
+        myApp.pullToRefreshDone();
+        appsReceived(data.apps, isRefresh);
       }, 
       failure: function() {
         myApp.hidePreloader();
+        myApp.pullToRefreshDone();
         myApp.alert('Failed to fetch apps.')
       }
     });
 }
 
-function renderApps(apps, token) {
+function appsReceived(apps, isRefresh) {
 
     var newApps = [];
 
@@ -145,19 +155,19 @@ function renderApps(apps, token) {
         app.build_status = app.status[platform];
         newApps.push(app);
     })
-    
+
     mainView.router.load({
         template: myApp.templates.results,
         context: {
           apps: apps
         },
+        reload: isRefresh
       });
 
 }
 
 function runApp() {
   var app_id = this.id;
-  var access_token = window.localStorage.getItem('access_token');
   console.log('running app ' + app_id);
   
   var container = $$('#progressbar');
@@ -166,7 +176,7 @@ function runApp() {
 
   $$.ajax({
     dataType: "json",
-    url: API_HOST + "/api/v1/apps/" + app_id + "/www?access_token=" + access_token,
+    url: API_HOST + "/api/v1/apps/" + app_id + "/www?access_token=" + myApp.access_token,
     success: loadApp,
     failure: function(e) {
       console.log('Failed to fetch app.', e);
@@ -200,14 +210,12 @@ function installApp() {
 }
 
 function analyzePlugins() {
-
-  var access_token = window.localStorage.getItem('access_token');
   var context = this;
 
   myApp.showPreloader();
   $$.ajax({
     dataType: "json",
-    url: API_HOST + "/api/v1/apps/" + this.id + "/plugins?access_token=" + access_token,
+    url: API_HOST + "/api/v1/apps/" + this.id + "/plugins?access_token=" + myApp.access_token,
     success: function(data) {
 
       myApp.hidePreloader();
